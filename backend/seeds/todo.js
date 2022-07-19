@@ -6,8 +6,8 @@ exports.seed = async function(knex) {
   // Deletes ALL existing entries
   await knex('todo').del()
   await knex('todo').insert([
-    {description: 'To do 1'},
-    {description: 'To do 2'},
-    {description: 'To do 3'}
+    {user_id: 1, description:"first note"},
+    {user_id: 1, description:"second note"},
+    {user_id: 2, description:"third note"}
   ]);
 };

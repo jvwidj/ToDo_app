@@ -1,5 +1,5 @@
 // Update with your config settings.
-require("dotenv").config()
+require("dotenv").config();
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
@@ -17,9 +17,9 @@ module.exports = {
   staging: {
     client: 'postgresql',
     connection: {
-      database: 'todo_app',
-      user:     'username',
-      password: 'password'
+      database: process.env.DB_NAME,
+      user:     process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD
     },
     pool: {
       min: 2,
@@ -33,9 +33,9 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      database: 'todo_app',
-      user:     'username',
-      password: 'password'
+      database: process.env.DB_NAME,
+      user:     process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD
     },
     pool: {
       min: 2,
