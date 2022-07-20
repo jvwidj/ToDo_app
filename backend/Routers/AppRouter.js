@@ -1,7 +1,8 @@
 class AppRouter {
-    constructor(express, knex) {
+    constructor(express, knex, jwt) {
         this.express = express;
         this.knex = knex;
+        this.jwt = jwt
     }
 
     /** ************** API - bind routes ***********************/ 
@@ -19,11 +20,21 @@ class AppRouter {
 
     /** ************** Router - todo ***********************/ 
     
+    //Verify and decode jwt
+    decode(req){
+        let token = req.headers.authorization;
+        console.log(token)
+        token = token.replace("Bearer", "");
+        return this.jwt.verify(token, process.env.JWT_SECRET);
+    }
+
     //getToDo
     getAll(req,res) {
         //console.log("get todo ")
+        let user = this.decode(req);
         return this.knex("todo")
             .select('*')
+            .where("user_id", user.id)
             .then((data) => {
                 //console.log(data);
                 res.json(data);

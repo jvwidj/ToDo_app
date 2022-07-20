@@ -18,7 +18,7 @@ const AppRouter = require("./Routers/AppRouter");
 const AuthRouter = require("./Routers/AuthRouter");
 
 /** *********************** Configure Router **************************** */
-app.use("/api", new AppRouter(express, knex).router());
+app.use("/api", new AppRouter(express, knex, jwt).router());
 app.use("/auth", new AuthRouter(express, knex, jwt).router())
 
 
