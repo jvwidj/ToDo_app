@@ -1,3 +1,5 @@
+const { application } = require("express");
+
 require("dotenv").config()
 
 class AuthRouter {
@@ -17,6 +19,8 @@ router() {
 }
 
 /** ************** Router - AUTH ***********************/ 
+
+
 
 //get
 getAuth(req, res) {
@@ -60,5 +64,8 @@ authLogin(req, res) {
         }
     }
 }
+
+//Get todo list from authenticated user
+
 
 module.exports = AuthRouter;

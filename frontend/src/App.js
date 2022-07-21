@@ -9,25 +9,12 @@ import Secret from "./Pages/Secret"
 import RequireAuth from "./Components/Auth/RequireAuth";
 
 function App() {
-  const {  isLoading } = useSelector((store) => store.todo);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getTodoList())
-  }, [dispatch])
-
-  if(isLoading){
-    return (
-      <div className="loading text-center my-5">
-        <h1>Loading...</h1>
-      </div>
-    )
-  }
+  
 
   return (
     <div className="App container">
 
-      <Link to="/secret">Secret</Link>
+      {/* <Link to="/secret">Secret</Link> */}
 
       <Routes>
         <Route path="/" element={<Login />} />

@@ -1,3 +1,5 @@
+require("dotenv").config({path:"../.env"})
+
 class AppRouter {
     constructor(express, knex, jwt) {
         this.express = express;
@@ -23,8 +25,9 @@ class AppRouter {
     //Verify and decode jwt
     decode(req){
         let token = req.headers.authorization;
-        console.log(token)
-        token = token.replace("Bearer", "");
+        
+        //console.log(token)
+        token = token.replace("Bearer ", "");
         return this.jwt.verify(token, process.env.JWT_SECRET);
     }
 
@@ -32,6 +35,7 @@ class AppRouter {
     getAll(req,res) {
         //console.log("get todo ")
         let user = this.decode(req);
+        
         return this.knex("todo")
             .select('*')
             .where("user_id", user.id)
@@ -54,14 +58,17 @@ class AppRouter {
 
     //postToDo
     postToDo(req, res) {
+        let user = this.decode(req)
         this.knex("todo")
             .insert({
-                description: req.body.description
+                description: req.body.description,
+                user_id: user.id
             })
             .then(() =>{
                 console.log("New item is added to the TO DO list")
                 this.knex("todo")
                     .select('*')
+                    .where("user_id", user.id)
                     .then((data) => {
                         //console.log(data);
                         res.json(data);
@@ -87,15 +94,18 @@ class AppRouter {
 
     //deleteToDo
     deleteToDo(req, res) {
+        
         this.knex("todo")
         .where({
             id: req.params.id
         })
         .del()
         .then(() => {
-            //res.send("Item deleted")
+            console.log("Item deleted")
+            let user = this.decode(req)
             this.knex("todo")
             .select('*')
+            .where("user_id", user.id)
             .then((data) => {
                 //console.log(data);
                 res.json(data);

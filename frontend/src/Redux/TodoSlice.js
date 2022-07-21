@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 //URL Data
 const api = `${process.env.REACT_APP_BACKEND}/api/todo`
@@ -13,8 +13,11 @@ const initialState = {
 export const postItem = createAsyncThunk(
     'todo/postItem',
     async (description) => {
+        const token = localStorage.getItem("TOKEN")
         try {
-            const res = await axios.post(api, {description:`${description}`})
+            const res = await axios.post(api, {
+                description:`${description}`},
+                {headers: {Authorization: `Bearer ${token}`}})
             //console.log(res.data)
             return res.data
         } catch (error) {
@@ -28,8 +31,11 @@ export const postItem = createAsyncThunk(
 export const getTodoList = createAsyncThunk(
     'todo/getTodoList',
     async () => {
+        const token = localStorage.getItem("TOKEN")
         try {
-            const res = await axios.get(api);
+            const res = await axios.get(api,
+                {headers: {Authorization:`Bearer ${token}`}})
+                //console.log("res", res.data)
             return res.data;
         } catch (error) {
             console.log(error)
@@ -37,14 +43,14 @@ export const getTodoList = createAsyncThunk(
     }
 )
 
-
-
 //Delete todo item
 export const deleteTodoList = createAsyncThunk(
     'todo/deleteTodo',
     async (id) => {
+        const token = localStorage.getItem("TOKEN")
         try {
-            const res = await axios.delete(`${api}/${id}`)
+            const res = await axios.delete(`${api}/${id}`,
+            {headers: {Authorization:`Bearer ${token}`}})
             //console.log(res)
             return res.data;
         } catch (error) {
